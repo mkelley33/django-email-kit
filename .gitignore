@@ -1,0 +1,9 @@
+.DS_Store
+DS_STORE
+*.pyc
+*~
+.project
+.pydevproject
+.settings
+*.tmpl
+.idea
