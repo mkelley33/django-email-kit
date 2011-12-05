@@ -7,13 +7,20 @@ from uni_form.helper import FormHelper
 from uni_form.layout import Layout, Div, Submit
 
 class BaseEmailForm(forms.Form):
-    sender = forms.EmailField(label=u'E-mail')
-    sender_name = forms.CharField(max_length=100, label=u'Your Name')
+    sender = forms.EmailField(
+        label=u'E-mail',
+        error_messages={u'required': u'Please enter an e-mail address.'}
+    )
+    sender_name = forms.CharField(
+        max_length=100,
+        label=u'Your Name',
+        error_messages={u'required': u'Please enter your name.'}
+    )
     captcha = CaptchaField(label=u'Type the letters below')
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        submit = Submit(u'submit',u'Submit')
+        submit = Submit(u'submit', u'Submit')
         self.helper.add_input(submit)
         self.helper.form_method = u'POST'
         self.helper.form_class = u'uni_form'
@@ -21,8 +28,14 @@ class BaseEmailForm(forms.Form):
 
 class ContactForm(BaseEmailForm):
 
-    subject = forms.CharField(max_length=100)
-    message = forms.CharField(widget=forms.Textarea)
+    subject = forms.CharField(
+        max_length=100,
+        error_messages={u'required': u'Please enter a subject.'}
+    )
+    message = forms.CharField(
+        widget=forms.Textarea,
+        error_messages={u'required': u'Please enter a message below.'}
+    )
 
     def __init__(self, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)

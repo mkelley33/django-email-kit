@@ -1,48 +1,26 @@
-from django.test import TestCase
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.http import QueryDict
+from django.test import TestCase
 
+from dingus import Dingus
+
+from emailkit import views
 from emailkit.utils import get_admin_email_addresses
 
-from unittest2 import expectedFailure
+META = {
+    'CSRF_COOKIE_USED': False,
+    'CSRF_COOKIE': None,
+}
 
 class ContactUsTest(TestCase):
 
-    def test_can_see_contact_us_page(self):
-        response = self.client.get(reverse('emailkit_contact_us'))
-        self.assertTemplateUsed(response, 'django_email_kit/contact-us-form.html')
-
-    def test_email_required_error(self):
-        response = self.client.post(reverse('main_view'))
-        self.assertFormError(response, 'form', 'sender', 'This field is required.')
-
-    def test_name_required_error(self):
-        response = self.client.post(reverse('main_view'))
-        self.assertFormError(response, 'form', 'sender_name', 'This field is required.')
-
-    def test_subject_required_error(self):
-        response = self.client.post(reverse('main_view'))
-        self.assertFormError(response, 'form', 'subject', 'This field is required.')
-
-    def test_message_required_error(self):
-        response = self.client.post(reverse('main_view'))
-        self.assertFormError(response, 'form', 'message', 'This field is required.')
-
-    @expectedFailure
-    def test_successful_send(self):
-        raise
-
-    @expectedFailure
-    def test_sender_email_address_used_by_template(self):
-        raise
-
-    @expectedFailure
-    def test_sender_name_used_by_template(self):
-        raise
-
-    @expectedFailure
-    def test_message_used_by_template(self):
-        raise
+    def test_required_fields(self):
+        post_data = QueryDict(u'sender=&sender_name=&subject=&message=')
+        response = views.contact_us(Dingus(META=META, METHOD='POST', POST=post_data))
+        assert u'Please enter an e-mail address.' in response.content
+        assert u'Please enter your name.' in response.content
+        assert u'Please enter a subject.' in response.content
+        assert u'Please enter a message below.' in response.content
 
 class UtilsTest(TestCase):
 
