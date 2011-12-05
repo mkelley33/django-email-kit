@@ -5,5 +5,5 @@ DS_STORE
 .project
 .pydevproject
 .settings
-*.tmpl
+local_settings.py
 .idea

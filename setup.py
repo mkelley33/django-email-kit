@@ -1,14 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='django-email-kit',
       version='0.1',
       description='A toolkit for common e-mail tasks like processing a "contact us" form.',
-      long_description=file('README.txt').read(),
+      long_description=file('README.rst').read(),
       author='Michaux Kelley',
       author_email='michauxkelley@gmail.com',
-      package_dir={'emailkit': 'emailkit'},
-      data_files=[('', ['README.txt'])],
       license='MIT',
+      packages=find_packages(),
       url='https://github.com/mkelley33/django-email-kit',
       keywords='django email contact forms',
       classifiers=["Development Status :: 1 - Planning",
