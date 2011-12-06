@@ -35,7 +35,6 @@ class UtilsTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         settings.ADMINS = cls.old_admins
-        self.assertEquals(2, len(settings.ADMINS))
 
     def test_get_admin_email_addresses_returns_correct_number_of_email_addresses(self):
         self.assertEquals(2, len(list(get_admin_email_addresses())))
